@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'OPP.wsgi.application'
 DATABASES = {
  'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_opp',
-        'USER': 'postgres',
-        'PASSWORD': 'CONTRA@123',
-        'HOST': 'localhost',
+        'NAME': 'd9ioecbvj84u6l',
+        'USER': 'gplpeobnpotupx',
+        'PASSWORD': 'b570edc6f3eb4507ff450bc1714e123855a8a5e5a8cdb5284f1ce1ccb5c5875f',
+        'HOST': 'ec2-54-216-185-51.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
