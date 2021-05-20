@@ -1,0 +1,317 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+    <div class="page-wrapper style="background-color: #f4f4f4;" >
+
+      {% include 'official_app/nav.html' %}
+
+        <section class="main row d-flex flex-row px-5">
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="{{ message.tags }}" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+    
+            <div class="workspace p-3 caption-top">
+                <p class="my-3"><b>Workspace - </b>{{ official.name|capfirst }}  ({{ official.desgn }})</p>
+                {% if official.station == None %}
+                    <p class="alert bg-warning">Update Station Details to access services. </p>
+                {% else %}
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#" id="tab-offences" class="nav-link tab-link active ">Offences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="tab-notices" class="nav-link tab-link  ">Notices</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="tab-requests" class="nav-link tab-link  ">Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="tab-complaints" class="nav-link tab-link  ">Complaints</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="tab-services" class="nav-link tab-link  ">Services</a>
+                    </li>
+                </ul>
+
+                <div class="tabs">
+
+                    <div class="tab tab-offences py-3 show fade ">
+
+        
+
+                        {% if not offences %}
+                            <div class="alert alert-primary">
+                                <p><b>There are no cases registered under your station</b></p>
+                            </div>
+                        {% else %}
+
+                            <div class="search-cases">
+
+                            </div>
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" >Offence</th>
+                                            <th scope="col" >Date-Time</th>
+                                            <th scope="col" >Location</th>
+                                            <th scope="col" ></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for offence in offences %}
+                                        <tr>
+                                            <td>{{ offence.offence_type }}</td>
+                                            <td>{{ offence.date_time_offence }}</td>
+                                            <td>{{ offence.offence_place }}</td>
+                                            <td><a href="{% url 'offence_details' pk=offence.id %}" class="card-link" >View Details</a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                        {% endif %}
+    
+                    </div>
+
+                    <div class="tab tab-notices py-3 fade">
+
+                        {% if not notices %}
+                  <div class="alert alert-primary">
+                      <p><b>There are no Notices passed under your Station</b></p>
+                  </div>
+              {% else %}
+              <table class="table table-responsive caption-top">
+                <caption>Notices For Your District</caption>
+                <thead>
+                    <tr>
+                        <th scope="col" >Type</th>
+                        <th scope="col" >Issue Date</th>
+                        <th scope="col" >Title</th>
+                        <th scope="col" ></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notice in notices %}
+                    <tr>
+                        <td>{{ notice.type }}</td>
+                        <td>{{ notice.issue_date }}</td>
+                        <td>{{ notice.title }}</td>
+                        <td>
+                            <div class="confirmation">
+                                <a class="card-link link-danger" data-bs-toggle="modal" data-bs-target="#notice-{{notice.nid}}">Delete Notice
+                                </a>
+                                <div class="modal fade" id="notice-{{ notice.nid }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Delete Notice - {{notice.title}}-({{notice.nid}})</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          {{ notice.description }}
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                          <a href="{% url 'delete_notice' nid=notice.nid %}" class="btn btn-dark">Confirm</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                      
+                    {% endfor %}
+                </tbody>
+            </table>
+
+              {% endif %}
+        
+                    </div>
+
+            <div class="tab tab-complaints py-3 fade">
+
+
+                    {% if not complaints %}
+                        <div class="alert alert-primary">
+                            <p><b>There are no complaints passed under your station.</b></p>
+                        </div>
+                    {% else %}
+                    <table class="table table-responsive caption-top">
+                      <caption>Complaints registered.</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Applicant Name/ Adhaar ID </th>
+                          <th scope="col">Complaint</th>
+                          <th scope="col">Response</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for complaint in complaints %}
+                          <tr>
+                              <td>{{ complaint.applicant.name }}-{{ complaint.applicant.uid }}</td>
+                              <td>{{ complaint.complaint }}</td>
+                              {% if complaint.response %}
+                              <td><a href="#" class="card-link link-dark">Responded</a></td>
+                              {% else %}
+                              <td><a href="{% url 'complaint_response' id=complaint.id %}" class="card-link">Respond</a></td>
+                                {% endif %}
+
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+
+                    {% endif %}
+            </div>
+
+            <div class="tab tab-requests py-3 fade">
+
+
+                {% if not requests %}
+                    <div class="alert alert-primary">
+                        <p><b>There are no requests passed under your station.</b></p>
+                    </div>
+                {% else %}
+                <table class="table table-responsive caption-top">
+                  <caption>Requests registered.</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Applicant Name/ Adhaar ID :</th>
+                      <th scope="col">Request</th>
+                      <th scope="col">Response</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for request in requests %}
+                      <tr>
+                          <td>{{ request.applicant.name }}-{{ request.applicant.uid }}</td>
+                          <td>{{ request.request }}</td>
+                          {% if complaint.response %}
+                            <td><a href="#" class="card-link link-dark">Responded</a></td>
+                            {% else %}
+                            <td><a href="{% url 'request_response' id=request.id %}" class="card-link">Respond</a></td>
+                           {% endif %}
+
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+
+                {% endif %}
+        </div>
+                    
+                    
+            <div class="tab tab-services py-4 fade">
+
+                <div class="row">
+                    <div class="col-sm-6 new-fir my-1">
+                        <div class="card px-4 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title"><b>FIR/Offence</b> Registration</h5>
+                                <p class="card-text">Register A Valid FIR/Offence.</p>
+                                <a href="{% url 'new_offence' %}" class="btn btn-primary my-2">Continue</a>
+                             </div>
+                         </div>
+                        </div>
+                    <div class="col-sm-6 new-notice my-1">
+                        <div class="card px-4 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title"><b>Notice/Alert</b></h5>
+                                <p class="card-text">Regulate Notice/Alert for Citizens.</p>
+                                <a href="{% url 'new_notice' %}" class="btn btn-primary my-2">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 new-notice my-1">
+                        <div class="card px-4 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title"><b>Register New Station</b></h5>
+                                <p class="card-text">Register A new Station for Enrollement of Officials.</p>
+                                <a href="{% url 'station_enrollment' %}" class="btn btn-primary my-2">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-sm-6 new-notice my-1">
+                    <div class="card px-4 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Search Known Offenders</b></h5>
+                            <p class="card-text">Search Known Offenders By Name & Image</p>
+                            <a href="{% url 'search_offenders' %}" class="btn btn-primary my-2">Continue</a>
+                        </div>
+                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+            </div>
+    
+        </section>
+
+
+    </div>
+
+    <script>
+
+        window.onload = () => {
+            
+            //GET TABS
+            const tabs = document.getElementsByClassName('tab')
+            //GET LINKS
+            const links = document.getElementsByClassName('tab-link')
+
+            
+            setTabs(tabs);
+
+            //PASS LINK 
+            for( let i=0 ; i < links.length ; i++ ){
+                links[i].addEventListener('click', (e) => {
+                    changeTab(links[i].id,tabs,links);
+                    links[i].classList.add('active');
+                } )
+            }
+
+        }
+
+        const setTabs = (tabs) => {
+            for( let i=0 ; i < tabs.length ; i++ ){
+                
+                if(!tabs[i].classList.contains('show')){
+                    tabs[i].setAttribute('style','display:none') 
+                }
+            }
+        }
+
+        const changeTab = (keyword,tabs,links) => {
+            
+            for(let i = 0; i < tabs.length; i++){
+                if(links[i].id != keyword){
+                    links[i].classList.remove('active');
+                }
+
+                if(tabs[i].classList.contains(keyword)){
+                    tabs[i].classList.add('show');
+                    tabs[i].setAttribute('style','display:block');
+                }
+                else{
+                    tabs[i].classList.remove('show');
+                }
+            }
+
+            setTabs(tabs);
+        }
+        
+
+    </script>
+
+{% endblock %}

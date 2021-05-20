@@ -1,0 +1,98 @@
+{% extends 'index.html' %}
+{% block content %}
+
+{% include 'official_app/nav.html' %}
+<div class="container py-3">
+    <form action="" id="station-enrollment-form" method="POST" get_districts_url="{% url 'get_districts' 'state' %}" >
+        {% csrf_token %}
+        <h5>Station Enrollment</h5>
+        <div class="form-group mb-2">
+            <label for="branch_name">Branch Name</label>
+            {{form.branch_name}}
+            {% if form.branch_name.errors %}
+            {% for error in form.branch_name.errors %}
+            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{error}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+        {% endif %} 
+        </div>
+        <div class="form-group mb-2">
+            <label for="state">State</label>
+            {{form.state}}
+            {% if form.state.errors %}
+            {% for error in form.state.errors %}
+            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{error}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+        {% endif %} 
+        </div>
+         <div class="form-group mb-2">
+            <label for="district">District</label>
+            {{form.district}}
+            {% if form.district.errors %}
+            {% for error in form.district.errors %}
+            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{error}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+        {% endif %} 
+        </div>
+        <div class="form-group mb-2">
+            <label for="address">Address</label>
+            {{form.address}}
+            {% if form.address.errors %}
+            {% for error in form.address.errors %}
+            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{error}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+        {% endif %} 
+        </div>
+        <div class="form-group mb-2">
+            <label for="district">Pincode</label>
+            {{form.pincode}}
+            {% if form.pincode.errors %}
+            {% for error in form.pincode.errors %}
+            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{error}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+        {% endif %} 
+        </div>
+        <button type="submit" class="btn btn-success my-2" >Submit</button>
+    </form>
+</div>
+<script>
+
+    const select_district = document.querySelector('#select-district');
+    
+    select_district.disabled = true
+    
+    document.querySelector('#select-state').addEventListener('change', (e) => {
+        
+        const state = e.target.value;
+        url = document.querySelector('#station-enrollment-form').getAttribute('get_districts_url');
+        url = url.replace('state',state)
+        console.log(url)
+        select_district.innerHTML = '';
+        
+        fetch(url).then( res => {
+            res.json().then( data => {
+                data.map( x => {
+                    select_district.innerHTML += `<option>${x}</option>`;
+                } )
+            } )
+            select_district.disabled = false; 
+        } )
+    } )
+
+
+</script>
+{% endblock %}

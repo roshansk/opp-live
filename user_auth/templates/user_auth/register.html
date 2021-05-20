@@ -1,0 +1,93 @@
+{%  extends 'index.html' %}
+
+{% block content %}
+
+<section>
+    {% include 'standard-nav.html' %}
+    <div class="container py-3" >
+        <h5>User Registration -</h5>
+            <div class="p-2">
+                <form action="" method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="uid">Adhaar Id (UID)</label>
+                        {{  form.uid  }}
+                        {% if form.uid.errors %}
+                            {% for error in form.uid.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %}   
+                    </div>
+                    <div class="mb-3">
+                        <label for="name">Fullname</label>
+                        {{  form.name  }}
+                        {% if form.name.errors %}
+                        {% for error in form.name.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="name">Username</label>
+                        {{  form.username  }}
+                        {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="uid">Password</label>
+                        {{  form.password  }}
+                        {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="uid">Confirm Password</label>
+                        {{ form.cpass }}
+                        {% if form.cpass.errors %}
+                        {% for error in form.cpass.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <input type="submit" class="btn  btn-primary justify-content-space-around " value="Register">
+                        <span>Already have an account?
+                            <a href="/user_auth/login/">Login</a>
+                        </span>
+                    </div>
+                </form>             
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="{{ message.tags }}" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</section>
+
+
+{% endblock content %}

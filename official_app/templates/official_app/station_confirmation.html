@@ -1,0 +1,75 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="page-wrapper-station-confirmation" style="color: #333;background-color: #f4f4f4;">
+        
+        {% include 'official_app/nav.html' %}
+
+        <div class="content container py-4">
+
+            <h4 class="text-primary" >Station Enrollment Confirmation</h4>
+
+             <div class="station-details card my-3">
+
+                <div class="card-header">Station Details</div>
+                
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>Station Id : </b>{{ station.sid }}</li>
+                        <li class="list-group-item"><b>Branch :</b> {{ station.branch_name }}</li>
+                        <li class="list-group-item"><b>Location :</b> {{ station.address }}, {{station.pincode}}.</li>
+                        <li class="list-group-item"><b>State :</b> {{ station.state }}</li>
+                        <li class="list-group-item"><b>District :</b>  {{ station.district }}</li>
+                        </ul>
+                    
+                    <div class="officials">
+                        {% if not officials %}
+                            <p class="alert alert-info text-bold fs-6 my-3">Currently There are no officials enlisted at this station.</p>
+                        {% else %}
+                            <p class="text-primary">Officials -</p>
+                            <ul class="list-group list-group-flush">
+                                {% for official in officials %}
+                                    <li class="list-group-item">{{ official.name }} <b>{{official.desgn}}</b></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="confirmation-form mx-3">
+                        
+                        <form action="" method="post" id="confirmation">
+                            {% csrf_token %}
+                            <div class="form-check my-2">
+                                <input class="form-check-input" name="check-confirm" type="checkbox" value="True" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  <b>I hereby declare that I have read above details and ready to enlist under station {{station.sid}} - {{station.branch_name}}.</b>
+                                </label>
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div {% if message.tags %} class="{{ message.tags }}" {% endif %} role="alert">
+                                    <strong>{{ message }}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="dflex flex-row mt-3">
+
+                                <a href="{% url 'station' %}" class="btn btn-dark me-3">Cancel</a>
+                                
+                                <button class="btn btn-success" type="submit">Submit</button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+             </div>
+
+        </div>
+
+    </div>    
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'index.html' %}
+{% block content %}
+    
+<div class="page-wrapper-dashboard">
+
+    {% include 'user_app/nav.html' %}
+
+    <div class="container main py-5">
+
+        <h5>Pass a New Request Under -</h5>
+
+        <div class="offence-data-table table-responsive">
+            <table class="table table-sm  caption-top">
+                <caption><b>Station Details</b></caption>
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Branch Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Pincode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th id="offence-id" scope="row">{{ station.sid }}</th>
+                    <td>{{ station.branch_name }}</td>
+                    <td>{{ station.address }}</td>
+                    <td>{{ station.pincode }}</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="request-form">
+
+            <form action="" method="POST" >
+                {% csrf_token %}
+
+                    {{ form.id }}
+                  
+                    <div class="form-group my-3">
+                        <label for="">State Nature & Description Of Request</label>
+                        {{ form.request }}
+                        {% if form.request.errors %}
+                        {% for error in form.request.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ error }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+
+                    <button class="btn btn-primary my-2">Submit</button>
+
+            </form>
+            
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

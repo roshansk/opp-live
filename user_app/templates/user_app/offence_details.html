@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div class="page-wapper-offence-details">
+
+    {% include 'user_app/nav.html' %}
+
+    <div class="main container my-5">
+
+        <div class="offence_details row my-3">
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="{{ message.tags }}" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <h5>Offence Details - </h5>
+            <div class="row m-2">
+                <span class=" py-2 border border-1 rounded col-sm-4"><b>Applicant Name </b><p>{{ offence_details.applicant_name  }}</p></span>
+                <!-- <span class=" py-2 border border-1 rounded col-sm-4"><b>Offence Registration Id </b><p>{{ offence_details.id  }}</p></span> -->
+                <span class=" py-2 border border-1 rounded col-sm-8"><b>Registration Date/Time </b><p>{{ offence_details.registration_timestamp  }}</p></span>
+                <span class=" py-2 border border-1 rounded col-sm-4"><b>Applicant UID </b><p>{{ offence_details.applicant_uid  }}</p></span>
+                <span class=" py-2 border border-1 rounded col-sm-4"><b>Applicant Gender </b><p>{{ offence_details.applicant_gender  }}</p></span>
+                <span class=" py-2 border border-1 rounded col-sm-4"><b>Applicant Contact Number </b><p>{{ offence_details.applicant_contact_number  }}</p></span> 
+                <span class=" py-2 border border-1 rounded col-sm-4"><b>Incident Date/Time </b><p>{{ offence_details.date_time_offence  }}</p></span>
+                <span class=" py-2 border border-1 rounded col-sm-8"><b>Incident Location </b> <p>{{ offence_details.offence_place }} </p></span>
+                <span class=" py-2 border border-1 rounded col-sm-12"><b>Offence Type </b> <p>{{ offence_details.offence_type }} </p></span>
+                <span class=" py-2 border border-1 rounded col-sm-12"><b>Offence_Description </b> <p>{{ offence_details.offence_description }} </p></span>
+                <span class=" py-2 border border-1 rounded col-sm-6"><b>Number of Offenders </b> <p>{{ offence_details.n_offenders }} </p></span>
+                <span class=" py-2 border border-1 rounded col-sm-6"><b>Staus of Investigation </b> <p>{{ offence_details.status|capfirst }} </p></span>
+
+            </div>
+
+            {% if offenders %}
+            <h5 class="my-2" >Offender Details - </h5>
+            <div class="accordion accordion-flush" id="{{ offender.id }}">
+            {% for offender in offenders  %}
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-{{ forloop.counter }}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#offender-{{ offender.id }}" aria-expanded="true" aria-controls="offender-{{ offender.id }}">
+                                Offender {{ forloop.counter }} Details - 
+                            </button>
+                            </h2>
+                            <div id="offender-{{ offender.id }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ forloop.counter }}" data-bs-parent="#{{ offender.id }}">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <span class=" border rounded py-2 col-sm-4" ><b>Name</b><p>
+                                    {{ offender.name }} </p></span>
+                                    <span class=" border rounded py-2 col-sm-4" ><b>Offender Registration Id</b><p>
+                                    {{ offender.id }} </p></span>
+                                    <span class=" border rounded py-2 col-sm-4" ><b>Gender</b><p>
+                                    {{ offender.gender }} </p></span>
+                                    <span class=" border rounded py-2 col-sm-12" ><b>Contact Number</b><p>
+                                        {{ offender.contact_number }} </p></span>
+                                    <span class=" border rounded py-2 col-sm-12" ><b>Address</b><p>
+                                    {{ offender.address }} </p></span>
+                                    <span class=" border rounded py-2 col-sm-4" ><b>Offender Image</b>
+                                    <img src="/static/images/{{ offender.face_img }}" class=" border rounded py-2 img-thumbnail d-block mx-auto my-2" style="width:200px;" alt="..."></span>
+                                </div>
+                            </div>
+                        </div>
+
+                {% endfor %}
+                </div>
+            {% endif %}
+
+
+            </div>
+        </div>
+</div>
+
+{% endblock %}

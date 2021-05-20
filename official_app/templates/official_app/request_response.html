@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% block content %}
+    
+<div class="page-wrapper-request-response">
+
+    {% include 'official_app/nav.html' %}
+
+    <div class="container main py-5">
+
+        <h5>Responding to Request Under -</h5>
+
+
+        <div class="offence-data-table table-responsive">
+            <table class="table table-sm  caption-top">
+                <caption><b>User Details</b></caption>
+                <thead>
+                  <tr>
+                    <th scope="col">UID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Contact Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th id="offence-id" scope="row">{{ user.uid }}</th>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.contact_number }}</td>
+                  </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-sm  caption-top">
+                <caption><b>Request Details</b></caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Request</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th id="offence-id" scope="row">{{ request.id }}</th>
+                    <td>{{ request.request }}</td>
+                  </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="complaint-response-form">
+
+            <form action="" method="POST" >
+                {% csrf_token %}
+
+                    <div class="form-group my-3">
+                        {{ form.response }}
+                        {% if form.response.errors %}
+                        {% for error in form.response.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ error }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %} 
+                    </div>
+
+                    <button class="btn btn-primary my-2">Submit</button>
+
+            </form>
+            
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

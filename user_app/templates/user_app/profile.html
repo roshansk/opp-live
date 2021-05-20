@@ -1,0 +1,180 @@
+{% extends 'index.html' %}
+{% block content %}
+    
+<div class="page-wrapper-dashboard">
+
+    {% include 'user_app/nav.html' %}
+
+    <div class="container main py-3">
+
+        <h5 class="mb-3">Profile Details -</h5>
+    
+            <form action=""  id="profile-form" method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+    
+                <div class="row">
+    
+                    <div class="col-sm-9">
+    
+                        <div class="form-group mb-2">
+                            <label for="">Name</label>
+                            {{form.name}}
+                            {% if form.name.errors %}
+                            {% for error in form.name.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="">Username</label>
+                            {{form.username}}
+                            {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="">Gender</label>
+                            {{form.gender}}
+                            {% if form.gender.errors %}
+                            {% for error in form.gender.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+
+        
+                        <div class="form-group mb-2">
+                            <label for="">Address</label>
+                            {{form.address}}
+                            {% if form.address.errors %}
+                            {% for error in form.address.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+
+                        <div class="form-group my-2">
+                            <label for="">Pincode</label><br>
+                            {{form.pincode}}
+                            {% if form.pincode.errors %}
+                            {% for error in form.pincode.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>    
+    
+                    </div>
+    
+                    <div class="col-sm-3">
+    
+                        <div class="d-flex flex-column justify-content-center">
+    
+                            <img src="/static/images{{ user.profile_image }}" class="img-thumbnail mx-auto d-block my-2" style="width:200px;" alt="...">
+    
+                            <div class="form-group my-2 ms-4">
+                                <label for="">Update Profile Image</label><br>
+                                {{form.profile_image}}
+                                {% if form.profile_image.errors %}
+                                {% for error in form.profile_image.errors %}
+                                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>{{error}}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                {% endfor %}
+                            {% endif %} 
+                            </div>
+        
+                            
+    
+                        </div>
+    
+                    </div>
+    
+    
+                    <div class="form-group my-2">
+                        <label for="">State</label><br>
+                        {{form.state}}
+                        {% if form.state.errors %}
+                        {% for error in form.state.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="" id="label-district" >District</label><br>
+                        {{form.district}}
+                        {% if form.district.errors %}
+                        {% for error in form.district.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+        
+    
+                </div>
+    
+                <button id="submit" type="submit" class="btn btn-success my-3">Update Profile</button>
+    
+            </form>
+
+
+    </div>
+
+</div>
+
+<script>
+
+    window.onload = () => {
+         console.log(document.querySelector('#select-district').innerHTML)
+    }
+     
+     //SELECT & SET STATE AND DISTRICT
+     const select_district = document.querySelector('#select-district');
+     
+     select_district.disabled = false;
+     
+     document.querySelector('#select-state').addEventListener('change', (e) => {
+         
+         const state = e.target.value;
+         select_district.innerHTML = "";
+         
+         fetch("/official_app/get_districts/"+state+"").then( res => {
+             res.json().then( data => {
+                 data.map( x => {
+                     select_district.innerHTML += `<option>${x}</option>`;
+                 } )
+             } )
+             select_district.disabled = false; 
+         } )
+     } )
+
+ 
+     </script>
+ 
+
+{% endblock %}

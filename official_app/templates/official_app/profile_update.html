@@ -1,0 +1,224 @@
+{% extends 'index.html' %}
+{% block content %}
+
+    <div class="page-wrapper-profile">
+
+        {% include 'official_app/nav.html' %}
+    
+        <div class="profile-update container px-3 py-3">
+    
+            <h5>Profile Details</h5>
+    
+            <form action=""  id="profile-form" method="POST"  get_districts_url="{% url 'get_districts' 'state' %}" enctype="multipart/form-data" >
+                {% csrf_token %}
+    
+                <div class="row">
+    
+                    <div class="col-sm-9">
+    
+                        <div class="form-group mb-2">
+                            <label for="">Name</label>
+                            {{profile.name}}
+                            {% if profile.name.errors %}
+                            {% for error in profile.name.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+    
+                        <div class="form-group mb-2">
+                            <label for="">Police Identification Number</label>
+                            {{profile.pid}}
+                            {% if profile.pid.errors %}
+                            {% for error in profile.pid.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+    
+                        <div class="form-group mb-2">
+                            <label for="">Adhaar Id</label>
+                            {{profile.oid}}
+                            {% if profile.oid.errors %}
+                            {% for error in profile.oid.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+    
+                        <div class="form-group mb-2">
+                            <label for="">Address</label>
+                            {{profile.address}}
+                            {% if profile.address.errors %}
+                            {% for error in profile.address.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+    
+    
+                        <div class="form-group mb-2">
+                            <label for="">Gender</label>
+                            {{profile.gender}}
+                            {% if profile.gender.errors %}
+                            {% for error in profile.gender.errors %}
+                            <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{error}}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            {% endfor %}
+                        {% endif %} 
+                        </div>
+    
+    
+                    </div>
+    
+                    <div class="col-sm-3">
+    
+                        <div class="d-flex flex-column justify-content-center">
+    
+                            <img src="/static/images{{ official.profile_img }}" class="img-thumbnail mx-auto d-block my-2" style="width:200px;" alt="...">
+    
+                            <div class="form-group my-2 ms-4">
+                                <label for="">Update Profile Image</label><br>
+                                {{profile.profile_image}}
+                                {% if profile.profile_image.errors %}
+                                {% for error in profile.profile_image.errors %}
+                                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>{{error}}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                {% endfor %}
+                            {% endif %} 
+                            </div>
+        
+                            
+    
+                        </div>
+    
+                    </div>
+    
+                    <div class="form-group my-2">
+                        <label for="">Designation</label><br>
+                        {{profile.desgn}}
+                        {% if profile.desgn.errors %}
+                        {% for error in profile.desgn.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+    
+                    <div class="form-group my-2">
+                        <label for="">State</label><br>
+                        {{profile.state}}
+                        {% if profile.state.errors %}
+                        {% for error in profile.state.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="" id="label-district" >District</label><br>
+                        {{profile.district}}
+                        {% if profile.district.errors %}
+                        {% for error in profile.district.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+    
+                    <div class="form-group my-2">
+                        <label for="">Pincode</label><br>
+                        {{profile.pincode}}
+                        {% if profile.pincode.errors %}
+                        {% for error in profile.pincode.errors %}
+                        <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{error}}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    {% endif %} 
+                    </div>
+    
+    
+                </div>
+    
+                <button id="submit" type="submit" class="btn btn-success my-2">Submit</button>
+    
+            </form>
+    
+    
+    
+        </div>
+    
+
+    </div>
+
+    
+    <script>
+
+   window.onload = () => {
+        console.log(document.querySelector('#select-district').innerHTML)
+   }
+    
+    //SELECT & SET STATE AND DISTRICT
+    const select_district = document.querySelector('#select-district');
+    
+    select_district.disabled = false;
+    
+    document.querySelector('#select-state').addEventListener('change', (e) => {
+        
+        const state = e.target.value;
+        url = document.querySelector('#profile-form').getAttribute('get_districts_url');
+        url = url.replace('state',state);
+        console.log(url)
+        select_district.innerHTML = '';
+        
+        fetch(url).then( res => {
+            res.json().then( data => {
+                data.map( x => {
+                    select_district.innerHTML += `<option>${x}</option>`;
+                } )
+            } )
+            select_district.disabled = false; 
+        } )
+    } )
+
+
+    //REMOVE DISABLED ATTRIBTUTE
+
+   
+
+    document.querySelector('#submit').addEventListener('click',() => {
+        document.querySelector('input[name="name"]').removeAttribute('disabled');
+        document.querySelector('input[name="oid"]').removeAttribute('disabled');
+        document.querySelector('input[name="pid"]').removeAttribute('disabled');
+    })   
+
+
+    </script>
+
+
+
+{% endblock %}

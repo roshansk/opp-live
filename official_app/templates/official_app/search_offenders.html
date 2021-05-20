@@ -1,0 +1,113 @@
+{% extends 'index.html' %}
+{% block content %}   
+
+<div class="page-wrapper-search-offenders">
+
+    {% include 'official_app/nav.html' %}
+
+    <div class="main container py-4">
+
+        <h5>Search Known Offenders -</h5>
+
+        <div class="search-by-wrapper">
+
+            {% include 'search_known_offenders.html' %}
+
+        </div>
+
+        <div class="offender-list py-4">
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+handleOffenders = (offenders) => {
+
+//GET WRAPPER
+wrapper = document.querySelector(".offender-list");
+wrapper.classList.add('row','py-4','fade','show');
+wrapper.innerHTML = ""
+
+//SET HEADINGS
+ heading = document.createElement("h5")
+heading.innerHTML = "Offender List -"
+heading.classList.add("col-sm-12","my-2")
+wrapper.appendChild(heading)
+
+offenders.forEach( offender => {
+    
+    card = document.createElement("div");
+    card.classList.add('card','col-sm-3','mx-2');
+    
+    card.innerHTML = "<img src='/static/images"+offender.face_img+"' class='card-img-top' style='width:100%'  alt='...'><div class='card-body d-flex flex-column justify-content-between'><h5 class='card-title'>"+offender.name+"</h5><p class='card-text'><b>Gender :</b> "+offender.gender+"<br><b>Address :</b> "+offender.address+"<br><b>Contact Number : </b>"+offender.contact_number+"<br></p><button id='exampleModal' class='btn btn-sm btn-primary mt-2' data-bs-toggle='modal' data-bs-target='#offender-"+offender.id+"' >View Details</button></div>"
+
+    confirmModal = document.createElement("div");
+    confirmModal.classList.add("modal");
+    confirmModal.id = "offender-"+offender.id;
+    confirmModal.setAttribute("tabindex","-1");
+    confirmModal.setAttribute("aria-labelledby","label-"+offender.id);
+    confirmModal.setAttribute("aria-hidden","true");
+    confirmModal.innerHTML = "<div class='modal-dialog modal-fullscreen'><div class='modal-content'><div class='modal-header'><h5 class='modal-title' id='label"+offender.id+"'>Offender Details -</h5><button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button></div><div class='modal-body px-3' id='body"+offender.id+"'><img src='/static/images"+offender.face_img+"' class='img img-thumbnail d-block mx-auto my-2' style='width:'16rem'  alt='...'><br><b>Name :</b>"+offender.name+"<br><b>Gender :</b>"+offender.gender+"<br><b>Contact Number :</b>"+offender.contact_number+"<br></div></div></div>"
+
+    card.appendChild(confirmModal);
+
+    wrapper.appendChild(card);
+    
+    if(offender.related_offences.length > 0){
+
+
+        container = document.querySelector("#body"+offender.id+"")
+
+        offences = offender.related_offences;
+
+        tableContainer = document.createElement("div");
+        table = document.createElement("table");
+        tableHeading = document.createElement("thead");
+        tableBody = document.createElement("tbody");
+
+        tableContainer.classList.add("table-responsive");
+        table.classList.add("table","caption-top");
+
+        table.innerHTML = "<caption>Registered Offences -</caption>"
+
+        tableHeading.innerHTML = "<thead><tr><th scope='col'>Offence</th><th scope='col'>Incident Date</th><th scope='col'>Location</th><th scope='col'></th></tr></thead>"
+
+        offences.forEach( offence => {
+
+            dateTime = new Date(offence.date_time_offence);
+            date = dateTime.getDate();
+            month = dateTime.getMonth()+1;
+            Year = dateTime.getFullYear();
+            date = date+"/"+month+"/"+Year; 
+
+            tr = document.createElement("tr");
+            tr.innerHTML = "<th scope='col'>"+offence.offence_type+"</th><td scope='col'>"+date+"</td><td scope='col'>"+offence.offence_type+"</td><td scope='col'><a class='card-link' href='/official_app/offence_details/"+offence.id+"'  >View Details</a></td>"
+
+            tableBody.appendChild(tr);
+
+        } )
+
+        table.appendChild(tableHeading);
+        table.appendChild(tableBody);
+        tableContainer.appendChild(table);
+        container.appendChild(tableContainer);
+
+    }
+
+
+});
+
+}
+
+
+</script>
+
+
+{% endblock %}
+    

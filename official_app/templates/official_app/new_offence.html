@@ -1,0 +1,127 @@
+{% extends 'index.html' %}
+{% block content %}
+
+    {% include 'official_app/nav.html' %}
+    <div class="container py-3 new-offence-form">
+
+        <h5>New Offence</h5>
+
+        <form action="" id="offence-offender" method="POST"     enctype="multipart/form-data" > {% csrf_token %}
+
+            <!-- OFFENCE FORM -->
+
+            {{ offence.id }}
+            
+            <div class="form-group my-3">
+                <label for="">Applicant Name</label>
+                {{ offence.applicant_name }}
+                {% if offence.applicant_name.errors %}
+                {% for error in offence.applicant_name.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+            <div class="form-group my-3">
+                <label for="">Applicant Adhaar Id</label>
+                {{ offence.applicant_uid }}
+                {% if offence.applicant_uid.errors %}
+                {% for error in offence.applicant_uid.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+            <div class="form-group my-3">
+                <label for="">Applicant Gender</label>
+                {{ offence.applicant_gender }}
+                {% if offence.applicant_gender.errors %}
+                {% for error in offence.applicant_gender.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+            <div class="form-group my-3">
+                <label for="">Applicant Contact Number</label>
+                {{ offence.applicant_contact_number }}
+                {% if offence.applicant_contact_number.errors %}
+                {% for error in offence.applicant_contact_number.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+
+            <div class="form-group my-3">
+                <label for="">Date and Time of Offence</label>
+                {{ offence.date_time_offence }}
+                {% if offence.date_time_offence.errors %}
+                {% for error in offence.date_time_offence.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>            
+
+            <div class="form-group my-3">
+                <label for="">Place of Occurence/Crime Scene</label>
+                {{ offence.offence_place }}
+                {% if offence.offence_place.errors %}
+                {% for error in offence.offence_place.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+            <div class="form-group my-3">
+                <label for="">Type of Offence with Section Number</label>
+                {{ offence.offence_type }}
+                {% if offence.offence_type.errors %}
+                {% for error in offence.offence_type.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+            <div class="form-group my-3">
+                <label for="">Detailed Description of Offence</label>
+                {{ offence.offence_description }}
+                {% if offence.offence_type.errors %}
+                {% for error in offence.offence_type.errors %}
+                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+        
+      
+            <input class="btn btn-success" type="submit" value="Submit">
+
+        </form>
+
+    </div>
+
+{% endblock %}

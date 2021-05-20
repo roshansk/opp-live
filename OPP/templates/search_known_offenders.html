@@ -1,0 +1,211 @@
+{% block content %}
+
+
+<div class="form-search-by row">
+
+    <form action="" id="search-image" class="col-sm-6 mt-2" >
+
+        <label class="form-label" for="search-by-image">Search By Image</label>
+        <div class="input-group">           
+                <input class="form-control" id="search-by-image" type="file" accept="image/jpg, image/jpeg, .jpeg, .jpg" required>
+                <span class="input-group-text bg-primary"><button class="btn btn-sm rounded-end m-0 py-0 text-white" type="submit"><b>Search</b></button></span>
+        </div>
+
+    </form>
+
+    <form action="" id="search-name" class="col-sm-6 mt-2">
+
+        <label class="form-label" for="search-by-image">Search By Name</label>
+        <div class="input-group">           
+                <input class="form-control" id="search-by-name" type="search" placeholder="Firstname Middlename Lastname" pattern="[a-zA-Z\s]+" src="" alt="" required>
+                <span class="input-group-text bg-primary"><button class="btn btn-sm rounded-end m-0 py-0 text-white" type="submit"><b>Search</b></button></span>
+        </div>
+    </form>
+
+    <div class="col-sm-12 search-by-errors">
+
+    </div>
+
+</div>
+
+
+<script>
+
+    raiseSearchByError = (msg="",type="") => {
+
+    const alert =  document.querySelector('.search-by-errors');
+    alert.innerHTML = "<div class='alert alert-"+type+" alert-dismissible fade show my-2' ><p><b>"+msg+"</b></p> <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+
+    }
+
+    //SEARCH OFFENDERS BY IMAGE
+    document.querySelector('#search-image').addEventListener( 'submit' , (e) => {
+    searchByImage(e);
+    } )
+
+
+    searchByImage = (e) => {
+    
+    e.preventDefault();
+    const imageInput = document.querySelector('#search-by-image');
+    const file = imageInput.files[0]
+    const filename = file.name;
+    const extension = filename.split('.').pop();
+
+    if( extension != "jpeg" && extension != "jpg" ){
+        raiseSearchByError(
+            "Upload only JPEG/JPG Images.",
+            "danger"
+        );
+    }
+    else if( (file.size/1024) > 100 || (file.size/1024) < 20 ){
+        raiseSearchByError(
+            "Size of image file must be 20KB-100KB",
+            "danger"
+        );
+
+    }
+    else{   
+
+        uploadToDjango(file)
+    }
+
+    }
+
+    getCookie = (name) => {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+        }
+    }
+    }
+    return cookieValue;
+    }
+
+
+
+    handleResponse = (result) => {
+
+    if(result.match == true){
+
+        if(result.offenders.length > 0){
+            offenders = result.offenders
+            handleOffenders(offenders)
+        }
+        else{
+            raiseSearchByError(result.error,'info');
+        }
+    }
+        else{
+            raiseSearchByError(result.error,'info');
+        }
+    }
+
+
+    uploadToDjango = (image) => {
+
+    const csrftoken = getCookie('csrftoken');
+
+    fetch(
+        '/search_offenders_image',
+        {
+            method:"POST",
+            headers:{
+                'Accept':'image/*',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrftoken,
+            },
+            body:image,
+        }
+    ).then( response => {
+
+        return response.json();
+
+    } ).then( data => {
+
+        result = data.result;
+        handleResponse(result);
+        
+    } )
+
+    }
+
+
+    //SEARCH OFFENDER BY NAME
+
+    document.querySelector('#search-name').addEventListener( 'submit', (e) => {
+        searchByName(e);
+    } )
+
+    searchByName = (e) => {
+
+        e.preventDefault();
+        name = document.querySelector('#search-by-name').value;
+        name = name.toLowerCase();
+        res = name.split(' ')
+   
+        if( name.length < 4 || name.length > 20  ){
+            raiseSearchByError(
+                'Search query name must be 5-20 characters long.',
+                'danger'
+            );
+        }
+        if(res.length > 4){
+            raiseSearchByError(
+                "Name must be in 'firstname','lastname','firstname lastname' or 'firstname middle name last name'",
+                'danger'
+            );
+        }
+        else{
+
+            uploadName(name);
+
+        }
+
+    }
+
+    uploadName = (name) => {
+
+       const csrftoken = getCookie('csrftoken');
+
+       fetch(
+        '/search_offenders_name',
+        {
+            method:"POST",
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrftoken,
+            },
+            body:JSON.stringify({
+                'name':name
+            }),
+        }).then( response => {
+
+            return response.json();
+
+        } ).then( data => {
+
+            result = data.result;
+            console.log(result);
+            handleResponse(result);
+            
+        } )
+
+    }
+
+
+
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+    <div class="page-wrapper-station-details" style="color:#333;background: color #f5f5f5;" >
+
+        {% include 'official_app/nav.html' %}
+
+        <div class="content container p-3">
+
+            <div class="headings d-flex">
+                <p class="h5 me-3">Update Station Details</p>
+                <p class="h5 text-primary">{{ official.name }} - {{ official.desgn }} </p>
+            </div>
+
+            <div class="get-stations-form mb-3">
+
+                <form action="" method="post" id="get-stations"  get_districts_url="{% url 'get_districts' 'state' %}" >
+                    {% csrf_token %}
+
+                    <div class="row">
+
+                        <div class="search-by-district col-sm-6 col-md-4 mt-3">
+
+                            <h5>Search By State-District</h5>
+
+                            <div class="form-group mb-2">
+                                <label for="">State</label>
+                                {{form.state}}
+                                {% if form.state.errors %}
+                                {% for error in form.state.errors %}
+                                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>{{error}}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                {% endfor %}
+                            {% endif %} 
+                            </div>
+        
+                            <div class="form-group mb-2">
+                                <label for="">District</label>
+                                {{form.district}}
+                                {% if form.district.errors %}
+                                {% for error in form.district.errors %}
+                                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>{{error}}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                {% endfor %}
+                            {% endif %} 
+                            </div>
+
+
+                        </div>
+
+                        <div class="search-by-pincode col-sm-6 col-md-4 mt-3">
+
+                            <h5>Search By POSTAL CODE 
+                                <i class="bi bi-exclamation-circle-fill ms-2" style="color:cornflowerblue;font-size: 1.6rem;" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="If pincode is entered, result will be based on same." ></i>
+                            </h5>
+
+                            <div class="form-group mb-2">
+                                <label for="">Pincode/Postal Code</label>
+                                {{form.pincode}}
+                                {% if form.pincode.errors %}
+                                {% for error in form.pincode.errors %}
+                                <div class="my-3 alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>{{error}}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endfor %}
+                            {% endif %} 
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-12">
+                            <input type="submit" class="btn btn-primary my-2" value="Search">
+                        </div>
+
+                    </div>        
+
+                </form>
+
+            </div>
+
+            <div class="station-list">
+            {% if official.station != None %}
+                <div class="enrolled-station">
+                    <h5><b>Enrolled Station</b></h5>
+                    <div class="station card shadow shadow-md mb-3">
+                        <div class="card-header"><b>Station Id :</b> {{  official.station.sid  }}</div>
+                        <div class="card-body">
+                          <p class="card-title"><b>Branch :</b> {{ official.station.branch_name }}</p>
+                          <p class="card-text">
+                               <b>Location :</b> {{ official.station.address }}, {{ official.station.pincode }}<br>
+                               <b>State :</b> {{ official.station.state }}  <b>District:</b> {{ official.station.district }}
+                            </p>
+                        </div>
+                      </div>
+                </div>
+            {% endif %}
+            
+                {% if messages %}
+                    {% for message in messages %}
+                    <div {% if message.tags %} class="{{ message.tags }}" {% endif %} role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if stations %}
+                <div class="stations-table table-responsive">
+                    <table class="table caption-top">
+                        <caption><b class="ms-3 text-primary">Station List</b></caption>
+                        <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Branch</th>
+                              <th scope="col">Location</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for station in stations %}
+                            <tr>
+                              <th scope="row">{{ station.sid }}</th>
+                              <td>{{ station.branch_name }}</td>
+                              <td>{{ station.address }}</td>
+                              {% if station.sid == official.station.sid %}
+                                <td><b class="text-primary" >Already Enlisted</b></td>
+                              {% else %}
+                              <td><a href="{% url 'enlist_station' id=station.sid %}" class="card-link " >Enlist</a></td>
+                              {% endif %}
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+
+    //SELECT & SET STATE AND DISTRICT
+    const select_district = document.querySelector('#select-district');
+    
+    select_district.disabled = false;
+    
+    document.querySelector('#select-state').addEventListener('change', (e) => {
+        console.log('Triggerd')
+        const state = e.target.value;
+        url = document.querySelector('#get-stations').getAttribute('get_districts_url');
+        url = url.replace('state',state);
+        console.log(url)
+        select_district.innerHTML = '';
+        
+        fetch(url).then( res => {
+            res.json().then( data => {
+                data.map( x => {
+                    select_district.innerHTML += `<option>${x}</option>`;
+                } )
+            } )
+            select_district.disabled = false; 
+        } )
+    } )
+        
+    </script>
+
+{% endblock %}
