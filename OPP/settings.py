@@ -26,7 +26,7 @@ SECRET_KEY = 'pibcgw3u6!1aohid!+!*f^hg)ff51n1(^cyw)!%#cyji5^h7(k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','online-police-portal.herokuapp.com',]
+ALLOWED_HOSTS = ['127.0.0.1','localhost','opp-live.herokuapp.com',]
 
 
 # Application definition
