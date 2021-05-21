@@ -22,7 +22,7 @@
         </div>
     </form>
 
-    <div class="col-sm-12 search-by-errors">
+    <div class="col-sm-12 search-by-errors my-2">
 
     </div>
 
@@ -92,18 +92,18 @@
 
     handleResponse = (result) => {
 
-    if(result.match == true){
+        if(result.match == true){
 
-        if(result.offenders.length > 0){
-            offenders = result.offenders
-            handleOffenders(offenders)
+            if(result.offenders.length > 0){
+                offenders = result.offenders
+                handleOffenders(offenders)
+            }
+            else{
+                raiseSearchByError(result.error,'info');
+            }
         }
         else{
-            raiseSearchByError(result.error,'info');
-        }
-    }
-        else{
-            raiseSearchByError(result.error,'info');
+                raiseSearchByError(result.error,'info');
         }
     }
 
@@ -130,6 +130,7 @@
     } ).then( data => {
 
         result = data.result;
+        console.log(result)
         handleResponse(result);
         
     } )

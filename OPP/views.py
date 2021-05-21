@@ -38,23 +38,26 @@ def search_offenders_by_name(request):
                 querysets.append( Offender.objects.filter(name__icontains=name) )
             except Offender.DoesNotExist :
                 result['error'] = "No Match Found"
-        
-        if len(querysets) > 0 :
-            for offenders in querysets :
-                if len(offenders) > 0 :
-                    for offender in offenders :
-                        if offender not in offender_objs :
-                            offender_objs.append(offender)
-        
-            for offender in offender_objs :
-                result['match'] = True
-                offences = Offence.objects.filter(offenders__id=offender.id)
-                offender = offender.get_offender()
-                offender['related_offences'] = []
-                for offence in offences :
-                    offender['related_offences'].append(offence.get_offence())
-                result['offenders'].append(offender)
-                result['error'] = ""
+
+        for offenders in querysets :
+            if len(offenders) > 0 :
+                for offender in offenders :
+                    if offender not in offender_objs :
+                        offender_objs.append(offender)
+
+            if len(offender_objs) > 0 :
+                for offender in offender_objs :
+                    result['match'] = True
+                    offences = Offence.objects.filter(offenders__id=offender.id)
+                    offender = offender.get_offender()
+                    offender['related_offences'] = []
+                    for offence in offences :
+                        offender['related_offences'].append(offence.get_offence())
+                    result['offenders'].append(offender)
+                    result['error'] = ""
+            else :
+                result['error'] = "No Match Found"
+
 
         return JsonResponse({ 'result' : result })
 

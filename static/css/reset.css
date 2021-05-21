@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+p{
+    margin: 0px 0px 0px 0px !important;
+}
+
 body{
     font-family:'lato', sans-serif !important;
 }

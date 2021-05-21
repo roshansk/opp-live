@@ -4,6 +4,8 @@ import face_recognition
 import pickle
 
 from ast import literal_eval
+
+from numpy.core.multiarray import result_type
 from official_app.models import Offence, Offender
 
 
@@ -56,29 +58,33 @@ def get_offender_match(image) :
     check_result = check_face(image)
 
     result = {
-        'match': check_result['detected'],
+        'detected': check_result['detected'],
+        'match':False,
         'offenders':[],
         'error':check_result['error'],
     }
     
-    if check_result['detected'] == True :
+    if result['detected'] == True :
+        offenders = Offender.objects.all()
 
-       offenders = Offender.objects.all()
-       for offender in offenders :
-           
-           test_encoding = check_result['encoding']
-           offender_encoding = pickle.loads(data=literal_eval(offender.face_obj))     
-           face_distance = face_recognition.face_distance([offender_encoding],test_encoding)
-           if face_distance < 0.6 :
-               offences = Offence.objects.filter(offenders__id=offender.id)
-               offender = offender.get_offender()
-               offender['related_offences'] = []
-               for offence in offences :
-                   offender['related_offences'].append(offence.get_offence())
-               result['offenders'].append(offender)
-               result['error'] = ""
-           else : 
-                result['error'] = 'No match found!'
+        if len(offenders) > 0 :
+            for offender in offenders :           
+                test_encoding = check_result['encoding']
+                offender_encoding = pickle.loads(data=literal_eval(offender.face_obj))     
+                face_distance = face_recognition.face_distance([offender_encoding],test_encoding)
+                if face_distance < 0.6 :
+                    result['match'] = True
+                    offences = Offence.objects.filter(offenders__id=offender.id)
+                    offender = offender.get_offender()
+                    offender['related_offences'] = []
+                    for offence in offences :
+                        offender['related_offences'].append(offence.get_offence())
+                        
+                    result['offenders'].append(offender)
+                else : 
+                        result['error'] = 'No match found!'
+        else :
+            result['error'] = 'No match found!'
 
 
     return result
