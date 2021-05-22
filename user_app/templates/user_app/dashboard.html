@@ -19,9 +19,8 @@
         {% endif %}
 
         <div class="Dashboard - p-3 ">
-            {% if user.district == None %}
-                <p class="alert bg-warning">Update Station Details to access services. </p>
-            {% else %}
+            {% if user.district %}
+
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a href="#" id="tab-offences" class="nav-link tab-link active ">Offences</a>
@@ -268,7 +267,8 @@
                 </div>
 
             </div>
-
+            {% else %}
+            <p class="alert alert-primary"><b>Update state & district details under profile to access services. </b></p>
             {% endif %}
         </div>
 
