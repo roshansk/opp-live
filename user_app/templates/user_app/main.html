@@ -12,29 +12,35 @@
 
         <div class="row h-100 mt-5">
 
-            <div class="hero-section col-sm-8 d-flex justify-content-between align-items-center flex-column ">
+            <div class="hero-section col-sm-8 d-flex justify-content-around align-items-center flex-column ">
 
                 <img src="{% static 'images/opp-logo.jpg' %}" class=" image-fluid rounded mx-auto d-block shadow" alt="" style="width: 280px;" >
 
-                <p class="mb-2 mt-2">To Protect and to Serve.</p>
+                <p class="mb-2 mt-3">To Protect and to Serve.</p>
 
             </div>
 
             <div class="nav-links col-sm-4 d-flex flex-column align-items-center ">
 
                 <div class="card px-4 shadow my-3">
-                    <div class="card-body pb-0">
-                        <h5 class="card-title text-center"><i class="bi bi-person-check fs-1"></i></h5>
+                    <div class="card-body py-3">
+                        <h5 class="card-title text-center mt-3"><i class="bi bi-person-check fs-1"></i></h5>
                         <p class="card-text text-center">Register as a Citizen.</p>
-                        <p class="text-center mt-2 mb-3"><a href="/user_auth/register" class="btn btn-primary">Continue</a></p>
+                        <p class="text-center mt-3 mb-3">
+                            <a href="/user_auth/register" class="btn btn-primary me-2">Continue</a> or 
+                            <a href="/user_auth/login" class="card-link ms-2 me-3">Login</a>
+                        </p>
                     </div>
                 </div>
 
                 <div class="card px-4 shadow">
-                    <div class="card-body pb-0">
-                        <h5 class="card-title  text-center "><i class="bi bi-shield-check fs-1"></i></h5>
+                    <div class="card-body py-3">
+                        <h5 class="card-title mt-3 text-center "><i class="bi bi-shield-check fs-1"></i></h5>
                         <p class="card-text text-center">Register as a Official.</p>
-                        <p class="text-center mt-2 mb-3"><a href="/official_auth/register" class="btn btn-primary">Continue</a></p>
+                        <p class="text-center mt-3 mb-3">
+                            <a href="/official_auth/" class="btn btn-primary me-2">Continue</a> or 
+                            <a href="/official_auth//login" class="card-link ms-2 me-3">Login</a>
+                        </p>
                     </div>
                 </div>
 
@@ -43,8 +49,8 @@
 
         </div>
 
-        <div class="hero-text" style="height: 12rem; background-color: #eee; margin: 5rem 0 5rem 0;" >
-            <blockquote class="blockquote text-right mx-auto w-75 py-5">
+        <div class="hero-text" style="min-height: 10rem; background-color: #eee; margin: 5rem 0 5rem 0;" >
+            <blockquote class="blockquote text-right mx-auto w-75 py-5 fs-6">
                 <p class="mb-3">We aim to spread awareness and vigilance towards crimes happening in society by involving citizens being informed and aware about the neighbourhood crimes, maximizing interaction with officials, <b>taking a step together.</b></p>
                 <footer class="blockquote-footer"><cite title="Source Title">Team OPP</cite></footer>
             </blockquote>

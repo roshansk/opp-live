@@ -11,7 +11,6 @@ from user_app.decorators import login_required
 
 
 def index(request):
-
     return render(request,'user_app/main.html',context={})
 
 @login_required
@@ -164,3 +163,5 @@ def offence_details(request,pk):
 
         )
         return redirect('dashboard')
+
+    
