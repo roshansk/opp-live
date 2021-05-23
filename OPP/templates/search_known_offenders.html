@@ -32,7 +32,6 @@
 <script>
 
     raiseSearchByError = (msg="",type="") => {
-
     const alert =  document.querySelector('.search-by-errors');
     alert.innerHTML = "<div class='alert alert-"+type+" alert-dismissible fade show my-2' ><p><b>"+msg+"</b></p> <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
 
@@ -43,6 +42,26 @@
     searchByImage(e);
     } )
 
+
+    //SET LOADING SPINNER
+
+    setLoadingSpinner = (isLoading) => {
+
+        if(isLoading){
+
+           const container =  document.querySelector('.search-by-errors');
+           const wrapperDiv = document.createElement("div");
+           const spinner = "Looking for potential match....<div class='spinner-border text-primary mx-2' role='status'></div>"  
+           container.classList.add('my-3');
+           wrapperDiv.innerHTML = spinner
+           container.appendChild(wrapperDiv);
+
+        }
+        else{
+            document.querySelector('.search-by-errors').innerHTML = "";
+        }   
+            
+    }
 
     searchByImage = (e) => {
     
@@ -67,6 +86,7 @@
     }
     else{   
 
+        setLoadingSpinner(true);
         uploadToDjango(file)
     }
 
@@ -91,7 +111,7 @@
 
 
     handleResponse = (result) => {
-
+        setLoadingSpinner(false);
         if(result.match == true){
 
             if(result.offenders.length > 0){
@@ -164,7 +184,7 @@
             );
         }
         else{
-
+            setLoadingSpinner(true);
             uploadName(name);
 
         }
