@@ -70,10 +70,10 @@
                                 <tbody>
                                     {% for offence in offences %}
                                     <tr>
-                                        <td>{{ offence.offence_type }}</td>
-                                        <td>{{ offence.date_time_offence }}</td>
-                                        <td>{{ offence.offence_place }}</td>
-                                        <td><a href="{% url 'offence_details' pk=offence.id %}" class="card-link" >View Details</a></td>
+                                        <td class="align-middle">{{ offence.offence_type }}</td>
+                                        <td class="align-middle">{{ offence.date_time_offence }}</td>
+                                        <td class="align-middle">{{ offence.offence_place }}</td>
+                                        <td class="align-middle"><a href="{% url 'offence_details' pk=offence.id %}" class="card-link" >View Details</a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -104,9 +104,9 @@
                                 <tbody>
                                     {% for request in requests %}
                                     <tr>
-                                        <td>{{ request.request }}</td>
-                                        <td>{{ request.station.branch_name  }}</td>
-                                        <td>
+                                        <td class="align-middle">{{ request.request }}</td>
+                                        <td class="align-middle">{{ request.station.branch_name  }}</td>
+                                        <td class="align-middle">
                                             
                                             {% if request.response  %}
                                                 <button class="btn btn-sm btn-success">Responded</button>
@@ -115,7 +115,7 @@
                                             {% endif %}
                                               
                                         </td>
-                                        <td>
+                                        <td class="align-middle">
           
                                           {% if request.response  %}
                                             {{ request.response }}
@@ -158,9 +158,9 @@
                       <tbody>
                           {% for complaint in complaints %}
                           <tr>
-                              <td>{{ complaint.complaint }}</td>
-                              <td>{{ complaint.station.branch_name  }}</td>
-                              <td>
+                              <td class="align-middle">{{ complaint.complaint }}</td>
+                              <td class="align-middle">{{ complaint.station.branch_name  }}</td>
+                              <td class="align-middle">
                                   
                                   {% if complaint.response  %}
                                       <button class="btn btn-sm btn-success">Responded</button>
@@ -169,7 +169,7 @@
                                   {% endif %}
                                     
                               </td>
-                              <td>
+                              <td class="align-middle">
 
                                 {% if complaint.response  %}
                                   {{  complaint.response }}
@@ -210,10 +210,10 @@
                 <tbody>
                     {% for notice in notices %}
                     <tr>
-                        <td>{{ notice.type }}</td>
-                        <td>{{ notice.issue_date }}</td>
-                        <td>{{ notice.title }}</td>
-                        <td>{{ notice.description }}</td>
+                        <td class="align-middle">{{ notice.type }}</td>
+                        <td class="align-middle">{{ notice.issue_date }}</td>
+                        <td class="align-middle">{{ notice.title }}</td>
+                        <td class="align-middle">{{ notice.description }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -234,13 +234,13 @@
                     {% else %}
 
                     <table class="table table-sm table-responsive caption-top" >
-
+                        <caption>Station List</caption>
                       <thead>
                         <tr>
-                            <th scope="col" >Station - Bracn Name</th>
+                            <th scope="col" >Branch Name</th>
                             <th scope="col" >Address</th>
-                            <th scope="col" >Pass a Request Under Station</th>
-                            <th scope="col" >File a Complaint Under Station</th>
+                            <th scope="col" >Actions</th>
+                            <th scope="col" ></th>
                         </tr>
                     </thead>
 
@@ -249,10 +249,10 @@
                       {% for station in stations  %}
                       
                         <tr>
-                          <td>{{ station.branch_name }}</td>
-                          <td>{{ station.address }}</td>
-                          <td><a href="{% url 'new_request' sid=station.sid %}" class="card-link">Pass Request</a></td>
-                          <td><a href="{% url 'new_complaint' sid=station.sid %}" class="card-link">Register Complaint</a></td>
+                          <td class="align-middle">{{ station.branch_name }}</td>
+                          <td class="align-middle">{{ station.address }}</td>
+                          <td class="align-middle"><a href="{% url 'new_request' sid=station.sid %}" class="card-link">Pass Request</a></td>
+                          <td class="align-middle"><a href="{% url 'new_complaint' sid=station.sid %}" class="card-link">Register Complaint</a></td>
                         </tr>
                      
                       {% endfor %}

@@ -7,9 +7,13 @@ from django.utils import timezone
 import uuid
 import os
 
+from OPP.utils import get_states,get_all_districts
+
 # Create your models here.
 
 #choices
+states = get_states()
+districts = sorted(get_all_districts())
 gender_choices = [ ('Male','Male'), ('Female','Female'), ('Transgender','Transgender'), ('other','Other') ]
 
 #SET OFFENDER IMAGE PATH
@@ -22,8 +26,8 @@ class Station(models.Model):
     sid = models.TextField(primary_key=True,default=uuid.uuid4().hex[:8].upper())
     branch_name = models.TextField(unique=True,max_length=24)
     address = models.TextField(blank=False,null=False)
-    state = models.TextField(blank=False,null=False,default='')
-    district = models.TextField(blank=False,null=False,default='')
+    state = models.TextField(choices=states,blank=False,null=False,default='')
+    district = models.TextField(choices=districts,blank=False,null=False,default='')
     pincode = models.IntegerField(blank=False,null=False)
 
     def get_station(self):
