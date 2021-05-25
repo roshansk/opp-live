@@ -144,7 +144,7 @@
                         </div>
                     {% else %}
                     <table class="table table-responsive caption-top">
-                      <caption>Complaints registered.</caption>
+                      <caption>Complaints registered by citizens.</caption>
                       <thead>
                         <tr>
                           <th scope="col">Applicant Name/ Adhaar ID </th>
@@ -158,7 +158,7 @@
                               <td>{{ complaint.applicant.name }}-{{ complaint.applicant.uid }}</td>
                               <td>{{ complaint.complaint }}</td>
                               {% if complaint.response %}
-                              <td><a href="#" class="card-link link-dark">Responded</a></td>
+                              <td><b>Responded - </b><br>{{ complaint.response }}</td>
                               {% else %}
                               <td><a href="{% url 'complaint_response' id=complaint.id %}" class="card-link">Respond</a></td>
                                 {% endif %}
@@ -180,7 +180,7 @@
                     </div>
                 {% else %}
                 <table class="table table-responsive caption-top">
-                  <caption>Requests registered.</caption>
+                  <caption>Requests registered by citizens.</caption>
                   <thead>
                     <tr>
                       <th scope="col">Applicant Name/ Adhaar ID :</th>
@@ -194,7 +194,7 @@
                           <td>{{ request.applicant.name }}-{{ request.applicant.uid }}</td>
                           <td>{{ request.request }}</td>
                           {% if request.response %}
-                            <td><a href="#" class="card-link link-dark">Responded</a></td>
+                          <td><b>Responded - </b><br>{{ request.response }}</td>
                             {% else %}
                             <td><a href="{% url 'request_response' id=request.id %}" class="card-link">Respond</a></td>
                            {% endif %}
