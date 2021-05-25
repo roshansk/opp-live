@@ -50,6 +50,7 @@
         if(isLoading){
 
            const container =  document.querySelector('.search-by-errors');
+           container.innerHTML = "";
            const wrapperDiv = document.createElement("div");
            const spinner = "Looking for potential match....<div class='spinner-border text-primary mx-2' role='status'></div>"  
            container.classList.add('my-3');
