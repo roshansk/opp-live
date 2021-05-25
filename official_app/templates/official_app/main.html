@@ -193,7 +193,7 @@
                       <tr>
                           <td>{{ request.applicant.name }}-{{ request.applicant.uid }}</td>
                           <td>{{ request.request }}</td>
-                          {% if complaint.response %}
+                          {% if request.response %}
                             <td><a href="#" class="card-link link-dark">Responded</a></td>
                             {% else %}
                             <td><a href="{% url 'request_response' id=request.id %}" class="card-link">Respond</a></td>
