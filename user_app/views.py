@@ -133,7 +133,7 @@ def user_offenders(request):
 
 
 @login_required
-def offence_details(request,pk):
+def offence_details_user(request,pk):
 
     offenders = []
 

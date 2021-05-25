@@ -11,5 +11,5 @@ urlpatterns = [
     path('user_logout/',views.logout,name="user_logout"),
     path('profile/',views.profile,name="user_profile"),
     path('user_offenders/',views.user_offenders,name="user_offenders"),
-    path('offence_details/<str:pk>',views.offence_details,name="offence_details"),
+    path('offence_details_user/<str:pk>',views.offence_details_user,name="offence_details_user"),
 ]

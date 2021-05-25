@@ -87,7 +87,7 @@ offenders.forEach( offender => {
             date = date+"/"+month+"/"+Year; 
 
             tr = document.createElement("tr");
-            tr.innerHTML = "<th scope='col'>"+offence.offence_type+"</th><td scope='col'>"+date+"</td><td scope='col'>"+offence.offence_type+"</td><td scope='col'><a class='card-link' href='/offence_details/"+offence.id+"'  >View Details</a></td>"
+            tr.innerHTML = "<th scope='col'>"+offence.offence_type+"</th><td scope='col'>"+date+"</td><td scope='col'>"+offence.offence_type+"</td><td scope='col'><a class='card-link' href='/offence_details_user/"+offence.id+"'  >View Details</a></td>"
 
             tableBody.appendChild(tr);
 

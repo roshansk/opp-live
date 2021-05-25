@@ -117,7 +117,6 @@
                         <caption><b class="ms-3 text-primary">Station List</b></caption>
                         <thead>
                             <tr>
-                              <th scope="col">ID</th>
                               <th scope="col">Branch</th>
                               <th scope="col">Location</th>
                               <th scope="col"></th>
@@ -126,8 +125,7 @@
                           <tbody>
                             {% for station in stations %}
                             <tr>
-                              <th scope="row">{{ station.sid }}</th>
-                              <td>{{ station.branch_name }}</td>
+                              <th scope="row">{{ station.branch_name }}</th>
                               <td>{{ station.address }}</td>
                               {% if station.sid == official.station.sid %}
                                 <td><b class="text-primary" >Already Enlisted</b></td>

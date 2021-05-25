@@ -367,7 +367,8 @@ def add_offender(request,pk):
                 offence_obj.save()
                 offence_details = offence_obj.get_offence()
                 return redirect('offence_details',pk=offence_details['id'])
-
+            else :
+                print(form.errors)
 
         context = {
             'offence_details':offence_details,
