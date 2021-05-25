@@ -60,8 +60,7 @@
                                     <span class=" border rounded py-2 col-sm-12" ><b>Address</b><p>
                                     {{ offender.address }} </p></span>
                                     <span class=" border rounded py-2 col-sm-4" ><b>Offender Image</b>
-                                    <img src="/static/images/{{ offender.face_img }}" class=" border rounded py-2 img-thumbnail d-block mx-auto my-2" style="width:200px;" alt="..."></span>
-                                    <span class=" border rounded py-2 col-sm-8" ><b>Actions</b>
+                                        <img src="/static/images{{ offender.face_img }}" class=" border rounded py-2 img-thumbnail d-block mx-auto my-2" style="width:200px;" alt="..."></span>                                    <span class=" border rounded py-2 col-sm-8" ><b>Actions</b>
                                         <p class="m-2"><button href="#" class="btn btn-outline btn-outline-danger" data-bs-toggle="modal" data-bs-target="#remove-{{offender.id}}"  ><i class="bi bi-trash me-2 text-danger"></i>Remove Offender</button></p>
                                         <p class="m-2"><a href="#" class="btn btn-primary"><i class="bi bi-pen me-2 text-white"></i>Edit Offender Details</a></i></p>           
                                     </span>
